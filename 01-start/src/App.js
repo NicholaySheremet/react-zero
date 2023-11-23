@@ -1,9 +1,31 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import "./App.css";
+import ListWithHandlers from "./components/list-with-handlers";
+import ListWithFetchHandlers from "./components/list-with-fetch-handlers";
+
+const defaultListDataState = {
+  isLoading: false,
+  data: undefined,
+};
 
 function App() {
   const [stateCounter, stateCounterUp] = useState(0);
   const refCounter = useRef(0);
+  const [{ isLoading, data } = {}, setData] = useState(defaultListDataState);
+
+  function getListData() {
+    setData({
+      ...defaultListDataState,
+      isLoading: true,
+    });
+
+    return setTimeout(() => {
+      setData({
+        ...defaultListDataState,
+        data: [1, 2, 3, 4, 5].slice(0, (Math.random() * 5) % 5),
+      });
+    }, 2000);
+  }
 
   function handleStateCount() {
     return stateCounterUp(stateCounter + 1);
@@ -33,6 +55,14 @@ function App() {
           <p>you clicked on ref counter 5 times and re-render page</p>
         )}
       </div>
+      <hr />
+      Click to take list data:<button onClick={getListData}>get list</button>
+      <hr />
+      List with global handler:
+      <ListWithHandlers isLoading={isLoading} data={data} />
+      <hr />
+      List with composed handlers:
+      <ListWithFetchHandlers isLoading={isLoading} data={data} />
     </div>
   );
 }
