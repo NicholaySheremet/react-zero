@@ -12,6 +12,7 @@ export const todoReducer = createSlice({
     addTodo: (state = initialState, action = {}) => {
       const { list = [] } = state;
       const { payload = {} } = action;
+
       const newId = uuidv4();
       state.list = [
         ...list,
@@ -23,22 +24,16 @@ export const todoReducer = createSlice({
         },
       ];
     },
-    deleteTodo: (state, action = {}) => {
+    deleteTodo: (state = initialState, action = {}) => {
       const { list = [] } = state;
       const { payload = {} } = action;
       const { id, index } = payload;
       const deleteIndex =
-        index || list.findIndex(({ todoId }) => todoId === id);
-      console.log("list", list);
-      console.log("payload", payload);
-      console.log("deleteIndex", deleteIndex);
-
+        index || list.findIndex(({ id: todoId }) => todoId === id);
       if (typeof deleteIndex === "number" && deleteIndex >= 0) {
-        console.log("start", list.slice(0, deleteIndex));
-        console.log("end", list.slice(0, deleteIndex));
         state.list = [
           ...list.slice(0, deleteIndex),
-          ...list.slice(deleteIndex, list.length),
+          ...list.slice(deleteIndex + 1),
         ];
       } else {
         state.list = [...list];
@@ -48,7 +43,8 @@ export const todoReducer = createSlice({
       const { list = [] } = state;
       const { payload = {} } = action;
       const { id, index } = payload;
-      const editIndex = index || list.findIndex(({ todoId }) => todoId === id);
+      const editIndex =
+        index || list.findIndex(({ id: todoId }) => todoId === id);
 
       if (typeof editIndex === "number" && editIndex >= 0) {
         state.list = [
@@ -57,7 +53,7 @@ export const todoReducer = createSlice({
             ...list[editIndex],
             finished: !list[editIndex]?.finished,
           },
-          ...list.slice(editIndex, list.length),
+          ...list.slice(editIndex + 1),
         ];
       } else {
         state.list = { list: [...list] };

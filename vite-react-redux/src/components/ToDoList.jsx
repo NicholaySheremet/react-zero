@@ -22,10 +22,12 @@ export function ToDoList() {
           {list.map(({ id, label, finished }) => (
             <li key={id}>
               <p>label: {label}</p>
-              <p>finished: {finished ? "+" : "-"}</p>
+              <p onClick={() => dispatch(handleToDoFinished({ id }))}>
+                finished: {finished ? "+" : "-"}
+              </p>
               <button
                 aria-label="delete"
-                onClick={() => dispatch(deleteTodo({id}))}
+                onClick={() => dispatch(deleteTodo({ id }))}
               >
                 delete
               </button>
