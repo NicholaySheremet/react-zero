@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Counter } from "./Counter";
-import { ToDoList } from "./ToDoList";
+import { Counter } from "../components/Counter";
+import { ToDoList } from "../components/ToDoList";
 
 function App() {
   const [count, setCount] = useState(0);

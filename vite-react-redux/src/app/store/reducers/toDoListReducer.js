@@ -1,12 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   list: [],
+  isLoading: false,
+  error: false,
 };
 
+const sliceName = "todo";
+const API_URL = "http://localhost:3000/to-do";
+
+export const fetchToDoList = createAsyncThunk(`${sliceName}/getToDoList`, async () => {
+  return fetch(API_URL)
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+});
+
 export const todoReducer = createSlice({
-  name: "todo",
+  name: sliceName,
   initialState,
   reducers: {
     addTodo: (state = initialState, action = {}) => {
@@ -60,10 +71,27 @@ export const todoReducer = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchToDoList.pending, (state) => {
+      state.isLoading = true;
+      state.error = false;
+    }),
+    builder.addCase(fetchToDoList.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = false;
+      state.list = action.payload?.data || [];
+    }),
+    builder.addCase(fetchToDoList.rejected, (state) => {
+      state.isLoading = false;
+      state.error = true;
+    })
+  },
 });
 
 export const { addTodo, deleteTodo, handleToDoFinished } = todoReducer.actions;
 
 export const getToDoList = (state) => state?.todo?.list;
+export const getToDoListLoading = (state) => state?.todo?.isLoading;
+export const getToDoListError = (state) => state?.todo?.error;
 
 export default todoReducer.reducer;

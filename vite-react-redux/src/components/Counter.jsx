@@ -3,7 +3,7 @@ import {
   decrement,
   increment,
   getCounterValue,
-} from "../store/reducers/counterReducer";
+} from "../app/store/reducers/counterReducer";
 
 export function Counter() {
   const count = useSelector(getCounterValue);

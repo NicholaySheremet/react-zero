@@ -1,14 +1,35 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addTodo,
   deleteTodo,
-  handleToDoFinished,
+  fetchToDoList,
   getToDoList,
-} from "../store/reducers/toDoListReducer";
+  getToDoListError,
+  getToDoListLoading,
+  handleToDoFinished,
+} from "../app/store/reducers/toDoListReducer";
 
 export function ToDoList() {
-  const list = useSelector(getToDoList);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchToDoList());
+    return () => {};
+  }, []);
+
+  const list = useSelector(getToDoList);
+  const loading = useSelector(getToDoListLoading);
+  const error = useSelector(getToDoListError);
+
+  console.log(list, loading, error);
+
+  if (loading) {
+    return <div>LOADING...</div>;
+  }
+
+  if (error) {
+    return <div>ALARM! ERROR!</div>;
+  }
 
   return (
     <div>
@@ -19,7 +40,7 @@ export function ToDoList() {
       </div>
       <div>
         <ul>
-          {list.map(({ id, label, finished }) => (
+          {list.map(({ _id: id, label, finished }) => (
             <li key={id}>
               <p>label: {label}</p>
               <p onClick={() => dispatch(handleToDoFinished({ id }))}>
