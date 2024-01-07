@@ -4,6 +4,9 @@ import {
   addTodo,
   deleteTodo,
   fetchToDoList,
+  fetchCreateToDo,
+  fetchUpdateToDo,
+  fetchDeleteToDo,
   getToDoList,
   getToDoListError,
   getToDoListLoading,
@@ -21,8 +24,6 @@ export function ToDoList() {
   const loading = useSelector(getToDoListLoading);
   const error = useSelector(getToDoListError);
 
-  console.log(list, loading, error);
-
   if (loading) {
     return <div>LOADING...</div>;
   }
@@ -34,7 +35,18 @@ export function ToDoList() {
   return (
     <div>
       <div>
-        <button aria-label="add" onClick={() => dispatch(addTodo())}>
+        <button
+          aria-label="add"
+          onClick={() =>
+            dispatch(
+              fetchCreateToDo({
+                data: {
+                  label: `Label created on Client (${Date.now()})`,
+                },
+              })
+            )
+          }
+        >
           Add new element
         </button>
       </div>
@@ -43,12 +55,23 @@ export function ToDoList() {
           {list.map(({ _id: id, label, finished }) => (
             <li key={id}>
               <p>label: {label}</p>
-              <p onClick={() => dispatch(handleToDoFinished({ id }))}>
+              <p
+                onClick={() =>
+                  dispatch(
+                    fetchUpdateToDo({
+                      id,
+                      data: {
+                        finished: !finished,
+                      },
+                    })
+                  )
+                }
+              >
                 finished: {finished ? "+" : "-"}
               </p>
               <button
                 aria-label="delete"
-                onClick={() => dispatch(deleteTodo({ id }))}
+                onClick={() => dispatch(fetchDeleteToDo({ id }))}
               >
                 delete
               </button>
