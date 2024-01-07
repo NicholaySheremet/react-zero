@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addTodo,
-  deleteTodo,
   fetchToDoList,
   fetchCreateToDo,
   fetchUpdateToDo,
@@ -10,7 +8,6 @@ import {
   getToDoList,
   getToDoListError,
   getToDoListLoading,
-  handleToDoFinished,
 } from "../app/store/reducers/toDoListReducer";
 
 export function ToDoList() {
