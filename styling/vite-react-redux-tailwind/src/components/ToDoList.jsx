@@ -9,73 +9,76 @@ import {
   getToDoListError,
   getToDoListLoading,
 } from "../app/store/reducers/toDoListReducer";
+import { DefaultButton, DefaultCard, BigSpinner } from "../shared/ui";
 
 export function ToDoList() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchToDoList());
     return () => {};
-  }, []);
+  }, [dispatch]);
 
   const list = useSelector(getToDoList);
   const loading = useSelector(getToDoListLoading);
   const error = useSelector(getToDoListError);
 
-  if (loading) {
-    return <div>LOADING...</div>;
-  }
-
-  if (error) {
-    return <div>ALARM! ERROR!</div>;
-  }
-
   return (
     <div>
-      <div>
-        <button
-          aria-label="add"
+      <DefaultCard header={"React-redux ToDo List"}>
+        <DefaultButton
           onClick={() =>
             dispatch(
               fetchCreateToDo({
                 data: {
                   label: `Label created on Client (${Date.now()})`,
                 },
-              })
+              }),
             )
           }
         >
           Add new element
-        </button>
-      </div>
-      <div>
-        <ul>
-          {list.map(({ _id: id, label, finished }) => (
-            <li key={id}>
-              <p>label: {label}</p>
-              <p
-                onClick={() =>
-                  dispatch(
-                    fetchUpdateToDo({
-                      id,
-                      data: {
-                        finished: !finished,
-                      },
-                    })
-                  )
-                }
-              >
-                finished: {finished ? "+" : "-"}
-              </p>
-              <button
-                aria-label="delete"
-                onClick={() => dispatch(fetchDeleteToDo({ id }))}
-              >
-                delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+        </DefaultButton>
+        {error ? (
+          <div>ALARM! ERROR!</div>
+        ) : loading ? (
+          <BigSpinner />
+        ) : (
+          <div>
+            <ul>
+              {list.map(({ _id: id, label, finished }) => (
+                <li key={id}>
+                  <DefaultCard header={label}>
+                    <div className="my-2">
+                      <p className="inline">Finished:</p>
+                      <div className="ml-2 inline">
+                        <DefaultButton
+                          onClick={() =>
+                            dispatch(
+                              fetchUpdateToDo({
+                                id,
+                                data: {
+                                  finished: !finished,
+                                },
+                              }),
+                            )
+                          }
+                        >
+                          {finished ? "+" : "-"}
+                        </DefaultButton>
+                      </div>
+                    </div>
+                    <DefaultButton
+                      onClick={() => dispatch(fetchDeleteToDo({ id }))}
+                    >
+                      delete
+                    </DefaultButton>
+                  </DefaultCard>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </DefaultCard>
     </div>
   );
 }

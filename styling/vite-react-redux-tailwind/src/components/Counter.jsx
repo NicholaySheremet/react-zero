@@ -1,31 +1,22 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   decrement,
-  increment,
   getCounterValue,
+  increment,
 } from "../app/store/reducers/counterReducer";
+import { DefaultButton, DefaultCard } from "../shared/ui";
 
 export function Counter() {
   const count = useSelector(getCounterValue);
   const dispatch = useDispatch();
 
   return (
-    <div>
-      <div>
-        <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          -
-        </button>
-        <span>{count}</span>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          +
-        </button>
-      </div>
-    </div>
+    <>
+      <DefaultCard header={"React-redux counter"}>
+        <DefaultButton onClick={() => dispatch(decrement())}>-</DefaultButton>
+        <span className="mx-2">{count}</span>
+        <DefaultButton onClick={() => dispatch(increment())}>+</DefaultButton>
+      </DefaultCard>
+    </>
   );
 }

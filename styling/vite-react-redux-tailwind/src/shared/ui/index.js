@@ -1,4 +1,5 @@
 import { DefaultButton } from "./Buttons";
 import { DefaultCard } from "./Cards";
+import { BigSpinner, DefaultSpinner, SmallSpinner } from "./Spinners";
 
-export { DefaultButton, DefaultCard };
+export { BigSpinner, DefaultButton, DefaultCard, DefaultSpinner, SmallSpinner };
