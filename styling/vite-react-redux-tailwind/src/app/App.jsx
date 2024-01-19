@@ -29,7 +29,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="container m -4">
+        <div className="m-4 container">
           <div className="relative flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
             <div className="p-6">
               <h5 className="text-blue-gray-900 mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal antialiased">
