@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Counter } from "../components/Counter";
 import { ToDoList } from "../components/ToDoList";
 
+import styles from './App.module.css';
+
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <h1>Vite + React + Redux</h1>
+      <h1 className={styles.test}>Vite + React + Redux</h1>
       <div>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
