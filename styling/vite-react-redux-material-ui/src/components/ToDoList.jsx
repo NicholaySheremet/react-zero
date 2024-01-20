@@ -21,16 +21,9 @@ export function ToDoList() {
   const loading = useSelector(getToDoListLoading);
   const error = useSelector(getToDoListError);
 
-  if (loading) {
-    return <div>LOADING...</div>;
-  }
-
-  if (error) {
-    return <div>ALARM! ERROR!</div>;
-  }
-
   return (
     <div>
+      <h1>React-redux ToDo List:</h1>
       <div>
         <button
           aria-label="add"
@@ -47,35 +40,41 @@ export function ToDoList() {
           Add new element
         </button>
       </div>
-      <div>
-        <ul>
-          {list.map(({ _id: id, label, finished }) => (
-            <li key={id}>
-              <p>label: {label}</p>
-              <p
-                onClick={() =>
-                  dispatch(
-                    fetchUpdateToDo({
-                      id,
-                      data: {
-                        finished: !finished,
-                      },
-                    })
-                  )
-                }
-              >
-                finished: {finished ? "+" : "-"}
-              </p>
-              <button
-                aria-label="delete"
-                onClick={() => dispatch(fetchDeleteToDo({ id }))}
-              >
-                delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {error ? (
+        <div>ALARM! ERROR!</div>
+      ) : loading ? (
+        <div>LOADING...</div>
+      ) : (
+        <>
+          <ul>
+            {list.map(({ _id: id, label, finished }) => (
+              <li key={id}>
+                <p>label: {label}</p>
+                <p
+                  onClick={() =>
+                    dispatch(
+                      fetchUpdateToDo({
+                        id,
+                        data: {
+                          finished: !finished,
+                        },
+                      })
+                    )
+                  }
+                >
+                  finished: {finished ? "+" : "-"}
+                </p>
+                <button
+                  aria-label="delete"
+                  onClick={() => dispatch(fetchDeleteToDo({ id }))}
+                >
+                  delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }

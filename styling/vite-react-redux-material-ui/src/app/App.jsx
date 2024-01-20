@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { useState } from "react";
 import { Counter } from "../components/Counter";
 import { ToDoList } from "../components/ToDoList";
@@ -9,15 +10,16 @@ function App() {
     <>
       <h1>Vite + React + Redux</h1>
       <div>
-        <button onClick={() => setCount((count) => count + 1)}>
+        <Button
+          variant="contained"
+          onClick={() => setCount((count) => count + 1)}
+        >
           count is {count}
-        </button>
+        </Button>
       </div>
       <hr />
-      <h1>React-redux counter:</h1>
       <Counter />
       <hr />
-      <h1>React-redux ToDo List:</h1>
       <ToDoList />
     </>
   );
