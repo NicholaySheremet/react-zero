@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Counter } from "../components/Counter";
 import { ToDoList } from "../components/ToDoList";
+import { ToDoListWithRQ } from "../components/ToDoListWithRQ";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +20,9 @@ function App() {
       <hr />
       <h1>React-redux ToDo List:</h1>
       <ToDoList />
+      <hr />
+      <h1>React-redux ToDo List with react-query:</h1>
+      <ToDoListWithRQ />
     </>
   );
 }
